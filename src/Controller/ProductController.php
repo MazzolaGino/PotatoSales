@@ -25,9 +25,9 @@ class ProductController extends AbstractController {
      * @Route("/product", name="product")
      */
     public function index(): Response {
-
+        
         if ($this->session->has('username')) {
-
+            
             return $this->render('product/index.html.twig', [
                         'controller_name' => 'ProductController',
             ]);
@@ -70,7 +70,7 @@ class ProductController extends AbstractController {
 
                 $response = $this->http->request(
                         'POST',
-                        'http://potatosales/index.php/api/save-product',
+                        $this->getParameter('app.api_url').'/save-product',
                         ['body' => $product->toArray()]
                 );
 
@@ -134,7 +134,7 @@ class ProductController extends AbstractController {
     private function getProducts() {
         $response = $this->http->request(
                 'GET',
-                'http://potatosales/index.php/api/products'
+                $this->getParameter('app.api_url').'/products'
         );
 
         $productsTotal = [];
@@ -153,7 +153,7 @@ class ProductController extends AbstractController {
     private function getColumns() {
         $response = $this->http->request(
                 'GET',
-                'http://potatosales/index.php/api/product-columns'
+                $this->getParameter('app.api_url').'/product-columns'
         );
 
         $columnsTotal = [];

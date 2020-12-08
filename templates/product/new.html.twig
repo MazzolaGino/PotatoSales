@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product Management{% endblock %}
+{% block body %}
+    
+{% set username = app.session.get('username') %}
+    
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal">Potato Sales</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark active" href="{{path('product_new')}}">New Product</a>
+        <a class="p-2 text-dark" href="{{path('product_list')}}">Sales</a>
+      </nav>
+      <b>Welcome {{ username }}</b> &nbsp;&nbsp; <a class="btn btn-outline-primary" href="{{ path('logout')}}">Logout ?</a>
+    </div>
+    
+    
+   
+    
+    <div class="container">
+        
+        <h1>New Product</h1>
+         
+        {% if result is defined %}
+            <b>{{ result }}</b>
+        {% endif %}
+        <form action="{{ path('product_save') }}" method="post">
+        <div class="form-group">
+            <label>Product ID</label>
+            {{ form_widget(form.productID, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.productID) }}
+        </div>
+        <div class="form-group">
+            <label>Product Name</label>
+            {{ form_widget(form.productName, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.productName) }}
+        </div>
+        <div class="form-group">
+            <label>Product Manager</label>
+            {{ form_widget(form.productManager, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.productManager) }}
+        </div>
+        <div class="form-group">
+            <label>Sales Start Date</label>
+            {{ form_widget(form.salesStartDate, { 'attr': {'class': ''} }) }}
+            {{ form_errors(form.salesStartDate) }}
+        </div>
+        {{ form_row(form._token) }}
+        <div class="form-group">
+            {{ form_widget(form.save, { 'attr': {'class': 'form-control btn btn-primary btn-block'} }) }}
+        </div> <!-- form-group// -->
+        <a href="{{ path('product_new')}}" class="form-control btn btn-secondary btn-block">Clear</a>
+    </form>
+    </div>
+    
+
+{% endblock %}

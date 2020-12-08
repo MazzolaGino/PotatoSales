@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product Management{% endblock %}
+{% block body %}
+    {% set subHeaders = []%}
+    {% set username = app.session.get('username') %}
+    
+
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal">Potato Sales</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark active" href="{{path('product_new')}}">New Product</a>
+        <a class="p-2 text-dark" href="{{path('product_list')}}">Sales</a>
+      </nav>
+      <b>Welcome {{ username }}</b> &nbsp;&nbsp; <a class="btn btn-outline-primary" href="{{ path('logout')}}">Logout ?</a>
+    </div>
+    
+    
+
+    <div class="container">
+        <h1>Product List</h1>
+        <table class="table table-hover table-dark">
+            <col>
+            <colgroup span="4"></colgroup>
+            <tr>
+                {% for column in columns %}
+                    {% if column['subHeaders'] is defined %}
+                    <th colspan="4" scope="colgroup">{{column['header']}}</th>
+                    {% set subHeaders = column['subHeaders'] %}
+                {% else %}
+                    <th><a href='/product-list/{{column['field']}}/{{column_sorting[column['field']]}}'>{{ column['header'] }}</a></th>
+                {% endif %}
+            {% endfor %}
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                {% for sh in subHeaders %}
+                    <th scope="col"><a href='/product-list/{{sh['field']}}/{{column_sorting[sh['field']]}}'>{{ sh['header'] }}</a></th>
+                {% endfor %}
+                <th></th>
+            </tr>
+            {% for product in products %}
+                <tr>
+                    <td>{{product['productID']}}</td>
+                    <td>{{product['productName']}}</td>
+                    <td>{{product['salesQ1']}}</td>
+                    <td>{{product['salesQ2']}}</td>
+                    <td>{{product['salesQ3']}}</td>
+                    <td>{{product['salesQ4']}}</td>
+                    <td>{{product['Total']}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
